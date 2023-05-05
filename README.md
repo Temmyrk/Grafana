@@ -89,3 +89,9 @@ Tanka is an open-source project :heart:. It is free as
 in beer and as in speech and this will never change.
 
 Licensed under Apache 2.0, see [LICENSE](LICENSE).
+
+
+# Rust
+docker run -v "$PWD:$PWD" -w "$PWD" -v "/Users/julienduchesne/Repos/deployment_tools:/Users/julienduchesne/Repos/deployment_tools" -v "/Users/julienduchesne/Repos/jrsonnet/:/Users/julienduchesne/Repos/jrsonnet/" -it golang
+cp /Users/julienduchesne/Repos/jrsonnet/target/x86_64-unknown-linux-gnu/release/libjsonnet.so /usr/lib/
+go build ./cmd/tk/

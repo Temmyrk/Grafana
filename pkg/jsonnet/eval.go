@@ -111,7 +111,10 @@ func evaluateSnippet(evalFunc evalFunc, path, data string, opts Opts) (string, e
 	}
 
 	// Create VM
-	jsonnetImpl := implementation.Get(opts.JsonnetImplementation)
+	jsonnetImpl, err := implementation.Get(opts.JsonnetImplementation)
+	if err != nil {
+		return "", err
+	}
 	jpath, _, _, err := jpath.Resolve(path, false)
 	if err != nil {
 		return "", errors.Wrap(err, "resolving import paths")
