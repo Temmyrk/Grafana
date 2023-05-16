@@ -1,8 +1,6 @@
 package implementation
 
 import (
-	"fmt"
-
 	"github.com/grafana/tanka/pkg/jsonnet/implementation/goimpl"
 	"github.com/grafana/tanka/pkg/jsonnet/implementation/rustimpl"
 	"github.com/grafana/tanka/pkg/jsonnet/implementation/types"
@@ -16,5 +14,7 @@ func Get(name string) (types.JsonnetImplementation, error) {
 		return &goimpl.JsonnetGoImplementation{}, nil
 	}
 
-	return nil, fmt.Errorf("unknown implementation: %s", name)
+	// TODO: fix
+	return &rustimpl.JsonnetRustImplementation{}, nil
+	// return nil, fmt.Errorf("unknown implementation: %s", name)
 }

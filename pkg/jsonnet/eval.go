@@ -68,10 +68,11 @@ func (o Opts) Clone() Opts {
 	}
 
 	return Opts{
-		TLACode:     tlaCode,
-		ExtCode:     extCode,
-		ImportPaths: append([]string{}, o.ImportPaths...),
-		EvalScript:  o.EvalScript,
+		JsonnetImplementation: o.JsonnetImplementation,
+		TLACode:               tlaCode,
+		ExtCode:               extCode,
+		ImportPaths:           append([]string{}, o.ImportPaths...),
+		EvalScript:            o.EvalScript,
 
 		CachePath:        o.CachePath,
 		CachePathRegexes: o.CachePathRegexes,

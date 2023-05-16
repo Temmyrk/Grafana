@@ -209,23 +209,17 @@ func (vm *VM) ImportCallback(f ImportCallback) {
 // `x` is a type supported by `NewJson`.
 func (vm *VM) NativeCallback(name string, params []string, f interface{}) {
 	ty := reflect.TypeOf(f)
-	if ty.NumIn() != len(params) {
-		panic("Wrong number of parameters")
-	}
 	if ty.NumOut() != 2 {
 		panic("Wrong number of output parameters")
 	}
 
 	wrapper := func(args ...*JsonValue) (*JsonValue, error) {
-		in := make([]reflect.Value, len(args))
-		for i, arg := range args {
-			value := reflect.ValueOf(arg.Extract())
-			if vty := value.Type(); !vty.ConvertibleTo(ty.In(i)) {
-				return nil, fmt.Errorf("parameter %d (type %s) cannot be converted to type %s", i, vty, ty.In(i))
-			}
-			in[i] = value.Convert(ty.In(i))
+		inSlice := []interface{}{}
+		for _, arg := range args {
+			inSlice = append(inSlice, arg.Extract())
 		}
 
+		in := []reflect.Value{reflect.ValueOf(inSlice)}
 		out := reflect.ValueOf(f).Call(in)
 
 		result := vm.NewJson(out[0].Interface())

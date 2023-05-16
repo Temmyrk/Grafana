@@ -95,3 +95,7 @@ Licensed under Apache 2.0, see [LICENSE](LICENSE).
 docker run -v "$PWD:$PWD" -w "$PWD" -v "/Users/julienduchesne/Repos/deployment_tools:/Users/julienduchesne/Repos/deployment_tools" -v "/Users/julienduchesne/Repos/jrsonnet/:/Users/julienduchesne/Repos/jrsonnet/" -it golang
 cp /Users/julienduchesne/Repos/jrsonnet/target/x86_64-unknown-linux-gnu/release/libjsonnet.so /usr/lib/
 go build ./cmd/tk/
+
+ make container && docker run -v "/Users/julienduchesne/Repos/deployment_tools/:/Users/julienduchesne/Repos/deployment_tools/" -v "$PWD:$PWD" -w "$PWD" -it --entrypoint bash docker.io/grafana/tanka
+ cd /Users/julienduchesne/Repos/deployment_tools/ksonnet/
+tk export test/example environments/ --implementation=rust --log-level=debug --recursive --parallel=32 --format '{{ if not env.metadata.labels.fluxExport }}flux{{ else }}{{ if eq env.metadata.labels.fluxExport \"true\" }}flux{{ else }}flux-disabled{{ end }}{{ end }}/{{ env.metadata.labels.cluster_name }}/{{ if .metadata.labels.fluxExportDir }}{{ .metadata.labels.fluxExportDir }}{{ else }}{{ if .metadata.namespace }}{{.metadata.namespace}}{{ else }}_cluster{{ end }}{{ end }}/{{.kind}}-{{.metadata.name}}' --merge-strategy=fail-on-conflicts
